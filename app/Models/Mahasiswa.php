@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Mahasiswa extends Model
+{
+    // 1. Beritahu Laravel nama tabel aslinya di Workbench
+    protected $table = 'mahasiswa';
+
+    // 2. Beritahu Laravel kalau Primary Key-nya adalah NIM (bukan id)
+    protected $primaryKey = 'nim';
+
+    // 3. Matikan auto increment karena NIM kita ketik manual
+    public $incrementing = false;
+
+    // 4. Set tipe data primary key-nya string/varchar
+    protected $keyType = 'string';
+
+    // 5. Matikan timestamps jika di tabel Workbench kamu tidak ada kolom created_at & updated_at
+    public $timestamps = false;
+}
