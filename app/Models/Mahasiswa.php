@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
+<<<<<<< HEAD
     // 1. Beritahu Laravel nama tabel aslinya di Workbench
     protected $table = 'mahasiswa';
 
@@ -21,3 +22,22 @@ class Mahasiswa extends Model
     // 5. Matikan timestamps jika di tabel Workbench kamu tidak ada kolom created_at & updated_at
     public $timestamps = false;
 }
+=======
+    protected $table = 'mahasiswa';
+    protected $primaryKey = 'nim';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
+    protected $guarded = [];
+
+    public function pendaftaran()
+    {
+        return $this->hasMany(Pendaftaran::class, 'nim', 'nim');
+    }
+
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class, 'nim', 'nim');
+    }
+}
+>>>>>>> b16daadd262f5afaed496df480629284a339d440

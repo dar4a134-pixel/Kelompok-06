@@ -10,5 +10,11 @@ class Bahasa extends Model
     protected $primaryKey = 'id_bahasa';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;
+
+    protected $guarded = [];
+
+    public function jadwalKursus()
+    {
+        return $this->hasMany(JadwalKursus::class, 'id_bahasa', 'id_bahasa');
+    }
 }
