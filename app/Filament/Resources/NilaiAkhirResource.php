@@ -3,27 +3,33 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NilaiAkhirResource\Pages;
-use App\Filament\Resources\NilaiAkhirResource\RelationManagers;
 use App\Models\NilaiAkhir;
-use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class NilaiAkhirResource extends Resource
 {
     protected static ?string $model = NilaiAkhir::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('id_nilai')->required()->label('ID Nilai'),
+                TextInput::make('id_daftar')->required()->label('ID Pendaftaran'),
+                TextInput::make('nilai_angka')->numeric()->required()->label('Nilai Angka'),
+                TextInput::make('nilai_huruf')->required()->label('Nilai Huruf'),
+                Select::make('status_lulus')
+                    ->options([
+                        'Lulus' => 'Lulus',
+                        'Tidak Lulus' => 'Tidak Lulus',
+                    ])->required()->label('Status Kelulusan'),
             ]);
     }
 
@@ -31,26 +37,14 @@ class NilaiAkhirResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id_nilai')->sortable()->label('ID Nilai'),
+                TextColumn::make('id_daftar')->label('ID Daftar'),
+                TextColumn::make('nilai_angka')->label('Angka'),
+                TextColumn::make('nilai_huruf')->label('Huruf'),
+                TextColumn::make('status_lulus')->badge(),
             ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->actions([Tables\Actions\EditAction::make()])
+            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

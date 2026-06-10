@@ -3,27 +3,34 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PembayaranResource\Pages;
-use App\Filament\Resources\PembayaranResource\RelationManagers;
 use App\Models\Pembayaran;
-use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class PembayaranResource extends Resource
 {
     protected static ?string $model = Pembayaran::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('id_bayar')->required()->label('ID Pembayaran'),
+                TextInput::make('id_daftar')->required()->label('ID Pendaftaran'),
+                DatePicker::make('tgl_bayar')->required()->label('Tanggal Bayar'),
+                TextInput::make('jumlah_bayar')->numeric()->required()->label('Jumlah Bayar'),
+                Select::make('metode_bayar')
+                    ->options([
+                        'Transfer' => 'Transfer',
+                        'Kasir' => 'Kasir',
+                    ])->required()->label('Metode Bayar'),
             ]);
     }
 
@@ -31,26 +38,14 @@ class PembayaranResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id_bayar')->sortable()->label('ID Bayar'),
+                TextColumn::make('id_daftar')->label('ID Daftar'),
+                TextColumn::make('tgl_bayar')->date()->label('Tgl Bayar'),
+                TextColumn::make('jumlah_bayar')->money('IDR')->label('Jumlah'),
+                TextColumn::make('metode_bayar')->label('Metode'),
             ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->actions([Tables\Actions\EditAction::make()])
+            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         $mahasiswaUser = User::firstOrCreate(
             ['email' => 'mahasiswa@kursus.com'],
             [
-                'name' => 'Ibnu Mahasiswa',
+                'name' => ' Mahasiswa',
                 'password' => Hash::make('password'),
             ]
         );

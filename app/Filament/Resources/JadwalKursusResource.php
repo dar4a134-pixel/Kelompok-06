@@ -3,27 +3,28 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\JadwalKursusResource\Pages;
-use App\Filament\Resources\JadwalKursusResource\RelationManagers;
 use App\Models\JadwalKursus;
-use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class JadwalKursusResource extends Resource
 {
     protected static ?string $model = JadwalKursus::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('id_jadwal')->required()->label('ID Jadwal'),
+                TextInput::make('hari')->required(),
+                TextInput::make('jam')->required()->placeholder('Contoh: 14:00 - 16:00'),
+                TextInput::make('id_bahasa')->required()->label('ID Bahasa'),
+                TextInput::make('id_instruktur')->required()->label('ID Instruktur'),
             ]);
     }
 
@@ -31,26 +32,14 @@ class JadwalKursusResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id_jadwal')->sortable(),
+                TextColumn::make('hari'),
+                TextColumn::make('jam'),
+                TextColumn::make('id_bahasa'),
+                TextColumn::make('id_instruktur'),
             ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->actions([Tables\Actions\EditAction::make()])
+            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
