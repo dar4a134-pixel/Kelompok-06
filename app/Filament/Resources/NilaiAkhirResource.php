@@ -15,7 +15,14 @@ use Filament\Tables\Columns\TextColumn;
 class NilaiAkhirResource extends Resource
 {
     protected static ?string $model = NilaiAkhir::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    // --- DI SINI YANG DIGANTI ---
+    protected static ?string $navigationIcon = 'heroicon-o-trophy';
+    protected static ?string $navigationGroup = 'Akademik';
+    protected static ?string $navigationLabel = 'Nilai Akhir';
+    protected static ?string $pluralModelLabel = 'Nilai Akhir';
+    protected static ?string $modelLabel = 'Nilai Akhir';
+    // ----------------------------
 
     public static function form(Form $form): Form
     {

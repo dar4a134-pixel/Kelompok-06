@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Providers\Filament;
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BahasaResource\Pages;
@@ -16,7 +15,15 @@ class BahasaResource extends Resource
 {
     protected static ?string $model = Bahasa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // ==========================================
+    // POLESAN TAMPILAN ESTETIK (BIAR GAK ERROR & KEREN)
+    // ==========================================
+    protected static ?string $navigationIcon = 'heroicon-o-language'; // Ganti jadi ikon bahasa
+    protected static ?string $navigationGroup = 'Data Master';        // Kelompokkan ke Data Master
+    protected static ?string $navigationLabel = 'Bahasa';             // Nama di Sidebar
+    protected static ?string $pluralModelLabel = 'Bahasa';            // Menghilangkan huruf "s" di Judul Halaman
+    protected static ?string $modelLabel = 'Bahasa';                  // Nama label tombol tambah data
+    // ==========================================
 
     // ==========================================
     // ATURAN HAK AKSES (ROLE PERMISSION)

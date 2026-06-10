@@ -15,7 +15,15 @@ class MahasiswaResource extends Resource
 {
     protected static ?string $model = Mahasiswa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // ==========================================
+    // POLESAN TAMPILAN ESTETIK (BIAR GAK ERROR & KEREN)
+    // ==========================================
+    protected static ?string $navigationIcon = 'heroicon-o-user-group'; // Ganti jadi ikon grup user
+    protected static ?string $navigationGroup = 'Data Master';        // Kelompokkan ke Data Master
+    protected static ?string $navigationLabel = 'Mahasiswa';             // Nama di Sidebar
+    protected static ?string $pluralModelLabel = 'Mahasiswa';            // Menghilangkan huruf "s" di Judul Halaman
+    protected static ?string $modelLabel = 'Mahasiswa';                  // Nama label tombol tambah data
+    // ==========================================
 
     // ==========================================
     // ATURAN HAK AKSES (ROLE PERMISSION)

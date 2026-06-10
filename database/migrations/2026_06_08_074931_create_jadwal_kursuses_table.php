@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('id_bahasa');
             $table->string('id_instruktur');
             $table->string('hari');
-            $table->time('jam');
+            // DIBAWAH INI SUDAH DIGANTI JADI STRING BIAR GAK ERROR LAGI
+            $table->string('jam'); 
             $table->timestamps();
 
             $table->foreign('id_bahasa')->references('id_bahasa')->on('bahasa')->onDelete('cascade');

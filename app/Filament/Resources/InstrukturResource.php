@@ -14,7 +14,16 @@ use Filament\Tables\Columns\TextColumn;
 class InstrukturResource extends Resource
 {
     protected static ?string $model = Instruktur::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    // ==========================================
+    // 5 BARIS KOSMETIK YANG GW TAMBAHIN DI SINI
+    // ==========================================
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap'; // Ganti ikon topi toga
+    protected static ?string $navigationGroup = 'Data Master';          // Gabung ke grup Data Master
+    protected static ?string $navigationLabel = 'Instruktur';            // Nama menu di sidebar
+    protected static ?string $pluralModelLabel = 'Instruktur';           // Hapus akhiran "s" di judul tabel
+    protected static ?string $modelLabel = 'Instruktur';                 // Hapus akhiran "s" di tombol New
+    // ==========================================
 
     public static function form(Form $form): Form
     {

@@ -14,7 +14,14 @@ use Filament\Tables\Columns\TextColumn;
 class JadwalKursusResource extends Resource
 {
     protected static ?string $model = JadwalKursus::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    // --- DI SINI YANG DIGANTI ---
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $navigationGroup = 'Manajemen Kursus';
+    protected static ?string $navigationLabel = 'Jadwal Kursus';
+    protected static ?string $pluralModelLabel = 'Jadwal Kursus';
+    protected static ?string $modelLabel = 'Jadwal Kursus';
+    // ----------------------------
 
     public static function form(Form $form): Form
     {

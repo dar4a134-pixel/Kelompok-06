@@ -16,16 +16,39 @@ use Filament\Tables\Columns\TextColumn;
 class PendaftaranResource extends Resource
 {
     protected static ?string $model = Pendaftaran::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    // --- DI SINI YANG DIGANTI ---
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationGroup = 'Manajemen Kursus';
+    protected static ?string $navigationLabel = 'Pendaftaran';
+    protected static ?string $pluralModelLabel = 'Pendaftaran';
+    protected static ?string $modelLabel = 'Pendaftaran';
+    // ----------------------------
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('id_daftar')->required()->label('ID Pendaftaran'),
-                TextInput::make('nim')->required()->label('NIM Mahasiswa'),
-                TextInput::make('id_jadwal')->required()->label('ID Jadwal'),
+                
+                // 1. NIM DIGANTI JADI DROPDOWN MAHASISWA
+                Select::make('nim')
+                    ->relationship('mahasiswa', 'nama') // Menampilkan NAMA, tapi yang disimpan tetap NIM
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->label('NIM Mahasiswa'),
+                
+                // 2. ID JADWAL DIGANTI JADI DROPDOWN HARI & JAM
+                Select::make('id_jadwal')
+                    ->relationship('jadwalKursus', 'hari') // Menampilkan HARI kursus
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->hari} - {$record->jam}") // Biar muncul contoh: "Senin - 14.00-16.00"
+                    ->preload()
+                    ->required()
+                    ->label('Jadwal Kursus'),
+
                 DatePicker::make('tgl_daftar')->required()->label('Tanggal Daftar'),
+                
                 Select::make('status_bayar')
                     ->options([
                         'Lunas' => 'Lunas',
@@ -39,8 +62,8 @@ class PendaftaranResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id_daftar')->sortable()->searchable()->label('ID Daftar'),
-                TextColumn::make('nim')->label('NIM'),
-                TextColumn::make('id_jadwal')->label('ID Jadwal'),
+                TextColumn::make('mahasiswa.nama')->label('Nama Mahasiswa')->searchable(), // Biar di tabel keliatan namanya, bukan angka NIM doang
+                TextColumn::make('jadwalKursus.hari')->label('Jadwal'),
                 TextColumn::make('tgl_daftar')->date()->label('Tgl Daftar'),
                 TextColumn::make('status_bayar')->badge(),
             ])

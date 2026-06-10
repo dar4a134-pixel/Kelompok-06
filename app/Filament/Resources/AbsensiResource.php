@@ -23,6 +23,7 @@ class AbsensiResource extends Resource
         return $form
             ->schema([
                 TextInput::make('id_absen')->required()->label('ID Absen'),
+                
                 Select::make('status_hadir')
                     ->options([
                         'Hadir' => 'Hadir',
@@ -31,11 +32,23 @@ class AbsensiResource extends Resource
                         'Alfa' => 'Alfa',
                     ])->required()->label('Status Kehadiran'),
                 
-                // INI DIA YANG BENAR: tgl_pertemuan (sesuai bocoran error SQLite)
                 DatePicker::make('tgl_pertemuan')->required()->label('Tanggal Pertemuan'),
                 
-                TextInput::make('nim')->required()->label('NIM Mahasiswa'),
-                TextInput::make('id_jadwal')->required()->label('ID Jadwal'),
+                // 1. NIM SEKARANG SUDAH JADI DROPDOWN MAHASISWA
+                Select::make('nim')
+                    ->relationship('mahasiswa', 'nama') // Mengambil relasi nama dari model
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->label('NIM Mahasiswa'),
+                
+                // 2. ID JADWAL SEKARANG SUDAH JADI DROPDOWN HARI & JAM
+                Select::make('id_jadwal')
+                    ->relationship('jadwalKursus', 'hari')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->hari} - {$record->jam}")
+                    ->preload()
+                    ->required()
+                    ->label('ID Jadwal'),
             ]);
     }
 
@@ -45,12 +58,11 @@ class AbsensiResource extends Resource
             ->columns([
                 TextColumn::make('id_absen')->sortable()->label('ID Absen'),
                 TextColumn::make('status_hadir')->badge(),
-                
-                // DISAMAKAN: tgl_pertemuan
                 TextColumn::make('tgl_pertemuan')->date()->label('Tanggal'),
                 
-                TextColumn::make('nim')->label('NIM'),
-                TextColumn::make('id_jadwal')->label('ID Jadwal'),
+                // Mengubah tampilan tabel agar memunculkan Nama dan Jadwal asli, bukan kode angka
+                TextColumn::make('mahasiswa.nama')->label('Nama Mahasiswa')->searchable(),
+                TextColumn::make('jadwalKursus.hari')->label('Jadwal Kursus'),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);

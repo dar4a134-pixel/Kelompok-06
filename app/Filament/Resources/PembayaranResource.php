@@ -16,7 +16,14 @@ use Filament\Tables\Columns\TextColumn;
 class PembayaranResource extends Resource
 {
     protected static ?string $model = Pembayaran::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    // --- DI SINI YANG DIGANTI ---
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+    protected static ?string $navigationGroup = 'Keuangan';
+    protected static ?string $navigationLabel = 'Pembayaran';
+    protected static ?string $pluralModelLabel = 'Pembayaran';
+    protected static ?string $modelLabel = 'Pembayaran';
+    // ----------------------------
 
     public static function form(Form $form): Form
     {

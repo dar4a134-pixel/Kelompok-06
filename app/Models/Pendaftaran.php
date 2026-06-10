@@ -23,4 +23,26 @@ class Pendaftaran extends Model
 
     // Mengizinkan semua kolom diisi (CRUD) tanpa error mass-assignment
     protected $guarded = []; 
+
+    // ==========================================
+    // TALI PENGHUBUNG (RELASI) BARU DI BAWAH INI
+    // ==========================================
+
+    /**
+     * Hubungan ke tabel Mahasiswa (Satu pendaftaran dimiliki oleh satu mahasiswa)
+     */
+    public function mahasiswa()
+    {
+        // Parameter: Model tujuan, foreign key di pendaftaran, primary key di mahasiswa
+        return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
+    }
+
+    /**
+     * Hubungan ke tabel Jadwal Kursus (Satu pendaftaran punya satu jadwal)
+     */
+    public function jadwalKursus()
+    {
+        // Parameter: Model tujuan, foreign key di pendaftaran, primary key di jadwal_kursus
+        return $this->belongsTo(JadwalKursus::class, 'id_jadwal', 'id_jadwal');
+    }
 }
