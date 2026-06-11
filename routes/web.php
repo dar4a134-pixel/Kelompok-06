@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// Import Controller yang baru kita buat di bagian atas
-use App\Http\Controllers\KursusController; 
+use App\Http\Controllers\PostController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [PostController::class,
+    'index'])->name('filamentblog.home');
