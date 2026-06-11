@@ -34,15 +34,13 @@ class AbsensiResource extends Resource
                 
                 DatePicker::make('tgl_pertemuan')->required()->label('Tanggal Pertemuan'),
                 
-                // 1. NIM SEKARANG SUDAH JADI DROPDOWN MAHASISWA
                 Select::make('nim')
                     ->relationship('mahasiswa', 'nama') // Mengambil relasi nama dari model
                     ->searchable()
                     ->preload()
                     ->required()
                     ->label('NIM Mahasiswa'),
-                
-                // 2. ID JADWAL SEKARANG SUDAH JADI DROPDOWN HARI & JAM
+
                 Select::make('id_jadwal')
                     ->relationship('jadwalKursus', 'hari')
                     ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->hari} - {$record->jam}")
