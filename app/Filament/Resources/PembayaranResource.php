@@ -17,13 +17,11 @@ class PembayaranResource extends Resource
 {
     protected static ?string $model = Pembayaran::class;
 
-    // --- DI SINI YANG DIGANTI ---
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
     protected static ?string $navigationGroup = 'Keuangan';
     protected static ?string $navigationLabel = 'Pembayaran';
     protected static ?string $pluralModelLabel = 'Pembayaran';
     protected static ?string $modelLabel = 'Pembayaran';
-    // ----------------------------
 
     public static function form(Form $form): Form
     {
@@ -51,16 +49,24 @@ class PembayaranResource extends Resource
                 TextColumn::make('jumlah_bayar')->money('IDR')->label('Jumlah'),
                 TextColumn::make('metode_bayar')->label('Metode'),
             ])
-            ->actions([Tables\Actions\EditAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPembayarans::route('/'),
+            'index'  => Pages\ListPembayarans::route('/'),
             'create' => Pages\CreatePembayaran::route('/create'),
-            'edit' => Pages\EditPembayaran::route('/{record}/edit'),
+            'edit'   => Pages\EditPembayaran::route('/{record}/edit'),
         ];
     }
 }
