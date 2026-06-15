@@ -6,12 +6,15 @@ use App\Filament\Resources\BahasaResource\Pages;
 use App\Models\Bahasa;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Support\Facades\Auth;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 
 class BahasaResource extends Resource
@@ -23,6 +26,11 @@ class BahasaResource extends Resource
     protected static ?string $navigationLabel = 'Bahasa';
     protected static ?string $pluralModelLabel = 'Bahasa';
     protected static ?string $modelLabel = 'Bahasa';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur', 'Mahasiswa']);
+    }
 
     public static function canCreate(): bool
     {
@@ -58,6 +66,12 @@ class BahasaResource extends Resource
                         'Advanced' => 'Advanced',
                     ])
                     ->required(),
+                FileUpload::make('foto')
+                    ->label('Foto Bahasa')
+                    ->image()
+                    ->directory('bahasa')
+                    ->disk('public')
+                    ->nullable(),
             ]);
     }
 
@@ -70,6 +84,7 @@ class BahasaResource extends Resource
                         TextEntry::make('id_bahasa')->label('ID Bahasa'),
                         TextEntry::make('nama_bahasa')->label('Nama Bahasa'),
                         TextEntry::make('tingkat')->label('Tingkat')->badge(),
+                        ImageEntry::make('foto')->label('Foto')->disk('public'),
                     ])->columns(2),
             ]);
     }
@@ -81,16 +96,20 @@ class BahasaResource extends Resource
                 Tables\Columns\TextColumn::make('id_bahasa')->label('ID Bahasa')->sortable(),
                 Tables\Columns\TextColumn::make('nama_bahasa')->label('Nama Bahasa')->searchable(),
                 Tables\Columns\TextColumn::make('tingkat')->label('Tingkat')->badge(),
+                ImageColumn::make('foto')->label('Foto')->disk('public'),
             ])
             ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }

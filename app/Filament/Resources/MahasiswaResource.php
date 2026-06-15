@@ -6,12 +6,15 @@ use App\Filament\Resources\MahasiswaResource\Pages;
 use App\Models\Mahasiswa;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Support\Facades\Auth;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 
 class MahasiswaResource extends Resource
@@ -23,6 +26,11 @@ class MahasiswaResource extends Resource
     protected static ?string $navigationLabel = 'Mahasiswa';
     protected static ?string $pluralModelLabel = 'Mahasiswa';
     protected static ?string $modelLabel = 'Mahasiswa';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Mahasiswa']);
+    }
 
     public static function canCreate(): bool
     {
@@ -58,6 +66,12 @@ class MahasiswaResource extends Resource
                     ->email()
                     ->required()
                     ->unique(ignoreRecord: true),
+                FileUpload::make('foto')
+                    ->label('Foto Mahasiswa')
+                    ->image()
+                    ->directory('mahasiswa')
+                    ->disk('public')
+                    ->nullable(),
             ]);
     }
 
@@ -71,6 +85,7 @@ class MahasiswaResource extends Resource
                         TextEntry::make('nama')->label('Nama Lengkap'),
                         TextEntry::make('jurusan')->label('Jurusan'),
                         TextEntry::make('email')->label('Email'),
+                        ImageEntry::make('foto')->label('Foto')->disk('public'),
                     ])->columns(2),
 
                 Section::make('QR Code Mahasiswa')
@@ -118,9 +133,9 @@ class MahasiswaResource extends Resource
                                     </div>
                                 ');
                             })
-                            ->html(), 
-                    ]),                
-            ]);                       
+                            ->html(),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -131,16 +146,20 @@ class MahasiswaResource extends Resource
                 Tables\Columns\TextColumn::make('nama')->label('Nama')->searchable(),
                 Tables\Columns\TextColumn::make('jurusan')->label('Jurusan'),
                 Tables\Columns\TextColumn::make('email')->label('Email'),
+                ImageColumn::make('foto')->label('Foto')->disk('public'),
             ])
             ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }

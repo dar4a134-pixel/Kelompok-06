@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -13,17 +12,21 @@ class StatsOverview extends BaseWidget
     {
         return [
             Stat::make('Total Mahasiswa', Mahasiswa::count())
-                ->description('Peserta kursus aktif')
-                ->descriptionIcon('heroicon-m-academic-cap')
+                ->description('+12% dari bulan lalu')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
             Stat::make('Total Instruktur', Instruktur::count())
-                ->description('Instruktur aktif')
-                ->descriptionIcon('heroicon-m-user-group')
+                ->description('+4% dari bulan lalu')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
             Stat::make('Bahasa Tersedia', '8')
-                ->description('Program kursus bahasa')
-                ->descriptionIcon('heroicon-m-globe-alt')
+                ->description('+2% dari bulan lalu')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
+            Stat::make('Pembayaran Baru', '7')
+                ->description('-3% dari bulan lalu')
+                ->descriptionIcon('heroicon-m-arrow-trending-down')
+                ->color('danger'),
         ];
     }
 }

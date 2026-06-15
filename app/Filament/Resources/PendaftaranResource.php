@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Auth;
 
 class PendaftaranResource extends Resource
 {
@@ -22,6 +23,26 @@ class PendaftaranResource extends Resource
     protected static ?string $navigationLabel = 'Pendaftaran';
     protected static ?string $pluralModelLabel = 'Pendaftaran';
     protected static ?string $modelLabel = 'Pendaftaran';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur', 'Mahasiswa']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
 
     public static function form(Form $form): Form
     {
@@ -64,13 +85,16 @@ class PendaftaranResource extends Resource
                 TextColumn::make('status_bayar')->badge(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),   // 👁️ icon mata
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }
@@ -81,7 +105,6 @@ class PendaftaranResource extends Resource
             'index'  => Pages\ListPendaftarans::route('/'),
             'create' => Pages\CreatePendaftaran::route('/create'),
             'edit'   => Pages\EditPendaftaran::route('/{record}/edit'),
-            // tidak perlu route 'view' — ViewAction pakai modal otomatis
         ];
     }
 }

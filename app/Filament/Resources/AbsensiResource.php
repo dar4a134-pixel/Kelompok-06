@@ -15,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Section;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiResource extends Resource
 {
@@ -23,6 +24,26 @@ class AbsensiResource extends Resource
     protected static ?string $navigationLabel = 'Absen';
     protected static ?string $pluralModelLabel = 'Absen';
     protected static ?string $modelLabel = 'Absen';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur', 'Mahasiswa']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur']);
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur']);
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
 
     public static function form(Form $form): Form
     {
@@ -83,12 +104,15 @@ class AbsensiResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasAnyRole(['Admin', 'Instruktur'])),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }

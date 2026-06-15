@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalKursusResource extends Resource
 {
@@ -20,6 +21,26 @@ class JadwalKursusResource extends Resource
     protected static ?string $navigationLabel = 'Jadwal Kursus';
     protected static ?string $pluralModelLabel = 'Jadwal Kursus';
     protected static ?string $modelLabel = 'Jadwal Kursus';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Instruktur', 'Mahasiswa']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
 
     public static function form(Form $form): Form
     {
@@ -44,13 +65,16 @@ class JadwalKursusResource extends Resource
                 TextColumn::make('id_instruktur')->label('ID Instruktur'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),   // 👁️ icon mata — tidak butuh file Page tambahan
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }
@@ -61,7 +85,6 @@ class JadwalKursusResource extends Resource
             'index'  => Pages\ListJadwalKursuses::route('/'),
             'create' => Pages\CreateJadwalKursus::route('/create'),
             'edit'   => Pages\EditJadwalKursus::route('/{record}/edit'),
-            // tidak perlu route 'view' — ViewAction pakai modal otomatis
         ];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
@@ -18,6 +17,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Firefly\FilamentBlog\Blog;
 use Filament\View\PanelsRenderHook;
+use App\Http\Middleware\RestrictBlogAccess;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -52,6 +52,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 \App\Filament\Widgets\StatsOverview::class,
+                \App\Filament\Widgets\PendaftaranChart::class,
+                \App\Filament\Widgets\AktivitasTerbaru::class,
+                \App\Filament\Widgets\AksesCepat::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -63,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RestrictBlogAccess::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

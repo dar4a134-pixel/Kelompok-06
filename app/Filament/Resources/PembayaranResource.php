@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Auth;
 
 class PembayaranResource extends Resource
 {
@@ -22,6 +23,26 @@ class PembayaranResource extends Resource
     protected static ?string $navigationLabel = 'Pembayaran';
     protected static ?string $pluralModelLabel = 'Pembayaran';
     protected static ?string $modelLabel = 'Pembayaran';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasAnyRole(['Admin', 'Mahasiswa']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::user()->hasRole('Admin');
+    }
 
     public static function form(Form $form): Form
     {
@@ -51,12 +72,15 @@ class PembayaranResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => Auth::user()->hasRole('Admin')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn () => Auth::user()->hasRole('Admin')),
                 ]),
             ]);
     }
