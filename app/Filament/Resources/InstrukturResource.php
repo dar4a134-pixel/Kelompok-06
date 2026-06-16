@@ -21,12 +21,24 @@ use Illuminate\Support\Facades\Auth;
 class InstrukturResource extends Resource
 {
     protected static ?string $model = Instruktur::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationGroup = 'Data Master';
-    protected static ?string $navigationLabel = 'Instruktur';
-    protected static ?string $pluralModelLabel = 'Instruktur';
-    protected static ?string $modelLabel = 'Instruktur';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Instruktur');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Instruktur');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Instruktur');
+    }
 
     public static function canViewAny(): bool
     {

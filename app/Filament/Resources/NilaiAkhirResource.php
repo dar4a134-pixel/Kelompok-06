@@ -16,12 +16,24 @@ use Illuminate\Support\Facades\Auth;
 class NilaiAkhirResource extends Resource
 {
     protected static ?string $model = NilaiAkhir::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-trophy';
     protected static ?string $navigationGroup = 'Akademik';
-    protected static ?string $navigationLabel = 'Nilai Akhir';
-    protected static ?string $pluralModelLabel = 'Nilai Akhir';
-    protected static ?string $modelLabel = 'Nilai Akhir';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Nilai Akhir');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Nilai Akhir');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Nilai Akhir');
+    }
 
     public static function canViewAny(): bool
     {
@@ -53,6 +65,7 @@ class NilaiAkhirResource extends Resource
                 TextInput::make('nilai_huruf')->required()->label('Nilai Huruf'),
                 Select::make('status_lulus')
                     ->options([
+                        'Lunas' => 'Lunas', // Catatan: Di opsi aslimu tertulis Lunas/Belum Lunas atau Lulus/Tidak Lulus, kodenya disesuaikan label aslimu
                         'Lulus' => 'Lulus',
                         'Tidak Lulus' => 'Tidak Lulus',
                     ])->required()->label('Status Kelulusan'),

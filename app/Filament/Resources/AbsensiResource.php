@@ -21,9 +21,22 @@ class AbsensiResource extends Resource
 {
     protected static ?string $model = Absensi::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
-    protected static ?string $navigationLabel = 'Absen';
-    protected static ?string $pluralModelLabel = 'Absen';
-    protected static ?string $modelLabel = 'Absen';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Absen');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Absen');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Absen');
+    }
 
     public static function canViewAny(): bool
     {

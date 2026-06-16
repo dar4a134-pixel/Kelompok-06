@@ -17,12 +17,24 @@ use Illuminate\Support\Facades\Auth;
 class PendaftaranResource extends Resource
 {
     protected static ?string $model = Pendaftaran::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
     protected static ?string $navigationGroup = 'Manajemen Kursus';
-    protected static ?string $navigationLabel = 'Pendaftaran';
-    protected static ?string $pluralModelLabel = 'Pendaftaran';
-    protected static ?string $modelLabel = 'Pendaftaran';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Pendaftaran');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Pendaftaran');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Pendaftaran');
+    }
 
     public static function canViewAny(): bool
     {

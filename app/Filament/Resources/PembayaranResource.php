@@ -17,12 +17,24 @@ use Illuminate\Support\Facades\Auth;
 class PembayaranResource extends Resource
 {
     protected static ?string $model = Pembayaran::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
     protected static ?string $navigationGroup = 'Keuangan';
-    protected static ?string $navigationLabel = 'Pembayaran';
-    protected static ?string $pluralModelLabel = 'Pembayaran';
-    protected static ?string $modelLabel = 'Pembayaran';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Pembayaran');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Pembayaran');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Pembayaran');
+    }
 
     public static function canViewAny(): bool
     {

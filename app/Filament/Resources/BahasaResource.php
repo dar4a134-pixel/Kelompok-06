@@ -20,12 +20,24 @@ use Filament\Infolists\Components\Section;
 class BahasaResource extends Resource
 {
     protected static ?string $model = Bahasa::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-language';
     protected static ?string $navigationGroup = 'Data Master';
-    protected static ?string $navigationLabel = 'Bahasa';
-    protected static ?string $pluralModelLabel = 'Bahasa';
-    protected static ?string $modelLabel = 'Bahasa';
+
+    // Menggunakan fungsi dinamis multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Bahasa');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Bahasa');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Bahasa');
+    }
 
     public static function canViewAny(): bool
     {

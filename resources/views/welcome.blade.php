@@ -499,8 +499,6 @@
         margin: 0 auto;
     }
 
-    .stat-item {}
-
     .stat-number {
         font-size: 2.5rem;
         font-weight: 700;
@@ -584,30 +582,20 @@
 
 <body>
 
-    <!-- FLAG BACKGROUND -->
     <div class="flag-bg" aria-hidden="true">
-        <!-- Indonesia -->
         <div class="flag-stripe flag-id-top"></div>
         <div class="flag-stripe flag-id-bot"></div>
-        <!-- Japan -->
         <div class="flag-stripe flag-jp-white"></div>
         <div class="flag-stripe flag-jp-red"></div>
-        <!-- UK -->
         <div class="flag-stripe flag-uk"></div>
-        <!-- France -->
         <div class="flag-stripe flag-fr"></div>
-        <!-- Germany -->
         <div class="flag-stripe flag-de"></div>
-        <!-- Spain -->
         <div class="flag-stripe flag-es"></div>
-        <!-- Korea -->
         <div class="flag-stripe flag-kr"></div>
         <div class="flag-stripe flag-kr-circle"></div>
-        <!-- China -->
         <div class="flag-stripe flag-cn"></div>
     </div>
 
-    <!-- NAVBAR -->
     <nav>
         <a href="#" class="nav-brand">
             <div class="nav-logo-icon">
@@ -628,12 +616,10 @@
             <li><a href="#">Tentang</a></li>
         </ul>
         <div class="nav-cta">
-            <a href="/login" class="btn btn-ghost">Masuk</a>
             <a href="/admin" class="btn btn-primary">Panel Admin</a>
         </div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-inner">
             <div class="hero-badge">
@@ -660,7 +646,6 @@
         </div>
     </section>
 
-    <!-- LANGUAGE ROW -->
     <div class="lang-row">
         <p>Bahasa yang tersedia</p>
         <div class="lang-pills">
@@ -675,7 +660,6 @@
         </div>
     </div>
 
-    <!-- FEATURES -->
     <section class="section" id="fitur">
         <div class="section-header">
             <p class="section-eyebrow">Fitur Unggulan</p>
@@ -718,7 +702,6 @@
         </div>
     </section>
 
-    <!-- STATS -->
     <div class="stats-section">
         <div class="stats-grid">
             <div class="stat-item">
@@ -740,7 +723,6 @@
         </div>
     </div>
 
-    <!-- CTA -->
     <section class="cta-section">
         <div class="cta-box">
             <h2>Daftar & Mulai Belajar</h2>
@@ -753,7 +735,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         © 2024 SIMKM — Sistem Informasi Manajemen Kursus Multibahasa. All rights reserved.
     </footer>

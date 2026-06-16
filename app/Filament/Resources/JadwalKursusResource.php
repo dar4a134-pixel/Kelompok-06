@@ -15,12 +15,24 @@ use Illuminate\Support\Facades\Auth;
 class JadwalKursusResource extends Resource
 {
     protected static ?string $model = JadwalKursus::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
     protected static ?string $navigationGroup = 'Manajemen Kursus';
-    protected static ?string $navigationLabel = 'Jadwal Kursus';
-    protected static ?string $pluralModelLabel = 'Jadwal Kursus';
-    protected static ?string $modelLabel = 'Jadwal Kursus';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Jadwal Kursus');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Jadwal Kursus');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Jadwal Kursus');
+    }
 
     public static function canViewAny(): bool
     {

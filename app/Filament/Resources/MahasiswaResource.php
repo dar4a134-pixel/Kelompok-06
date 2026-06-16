@@ -20,12 +20,24 @@ use Filament\Infolists\Components\Section;
 class MahasiswaResource extends Resource
 {
     protected static ?string $model = Mahasiswa::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'Data Master';
-    protected static ?string $navigationLabel = 'Mahasiswa';
-    protected static ?string $pluralModelLabel = 'Mahasiswa';
-    protected static ?string $modelLabel = 'Mahasiswa';
+
+    // Mengubah property static menjadi fungsi dinamis untuk multibahasa
+    public static function getNavigationLabel(): string
+    {
+        return __('Mahasiswa');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Mahasiswa');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Mahasiswa');
+    }
 
     public static function canViewAny(): bool
     {
